@@ -1,14 +1,14 @@
 <?php
 
-namespace Bolt\Layout;
+namespace Bolt\SSR;
 
-use Bolt\Layout\GridTagNode;
+use Bolt\SSR\SSRTagNode;
 
 /**
  * @author Salem Ghoweri
  */
 
-class GridTagTokenParser extends \Twig\TokenParser\AbstractTokenParser {
+class SSRTagTokenParser extends \Twig\TokenParser\AbstractTokenParser {
 
    public function parse(\Twig\Token $token) {
 
@@ -38,11 +38,11 @@ class GridTagTokenParser extends \Twig\TokenParser\AbstractTokenParser {
       $tag = $stream->next()->getValue();
 
       switch ($tag){
-        case 'endgrid':
+        case 'endssr':
           $continue = false;
           break;
         default:
-          throw new \Twig_Error_Syntax(sprintf('Unexpected end of template. Twig was looking for the following tags "endgrid" to close the "grid" block started at line %d)', $lineno), -1);
+          throw new \Twig_Error_Syntax(sprintf('Unexpected end of template. Twig was looking for the following tags "endssr" to close the "ssr" block started at line %d)', $lineno), -1);
       }
 
       // you want $body at the beginning of your arguments
@@ -54,7 +54,7 @@ class GridTagTokenParser extends \Twig\TokenParser\AbstractTokenParser {
       $stream->expect(\Twig\Token::BLOCK_END_TYPE);
     }
 
-    return new GridTagNode(new \Twig_Node($params), $lineno, $this->getTag());
+    return new SSRTagNode(new \Twig_Node($params), $lineno, $this->getTag());
   }
 
       /**
@@ -75,7 +75,7 @@ class GridTagTokenParser extends \Twig\TokenParser\AbstractTokenParser {
 
 
    public function getTag() {
-       return "grid";
+       return "ssr";
    }
 
    /**
@@ -86,6 +86,6 @@ class GridTagTokenParser extends \Twig\TokenParser\AbstractTokenParser {
     * @return bool
     */
    public function decideMyTagFork(\Twig\Token $token) {
-      return $token->test(array("grid", "endgrid"));
+      return $token->test(array("ssr", "endssr"));
    }
 }
