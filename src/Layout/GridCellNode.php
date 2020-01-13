@@ -104,19 +104,12 @@ class GridCellNode extends \Twig\Node\Node {
       "cell" => $GLOBALS['cell_props'][ $GLOBALS['cell_counter'] ]
     );
 
-    //@TODO: pull in template logic used here from external Twig file.
-    $string       = "
-      {% set classes = [] %}
+    $prefix = $stringLoader->render([
+      'string' => '<div {{ attributes | raw }}>',
+      'data' => $data,
+    ]);
 
-      <div {{ attributes.addClass(classes) | raw }}>
-      $contents
-      </div>
-    ";
-
-    // Pre-render the inline Twig template + the data we've merged and normalized
-    $rendered = $stringLoader->render(array("string" => $string, "data" => $data));
-
-    echo $rendered, PHP_EOL;
+    echo $prefix . $contents  . '</div>', PHP_EOL;
   }
 
   public function compile(\Twig\Compiler $compiler) {
