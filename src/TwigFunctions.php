@@ -48,7 +48,7 @@ class TwigFunctions {
     ]);
   }
 
-  public static function bolt_ssr($context = '', $html) {
+  public static function bolt_ssr($html, $context = '') {
     // a better, more dynamic way of finding the ssr-server path is via lerna (but it's more costly to run $$)
     // $p = new Process('npx --quiet lerna ls --json --all | npx --quiet json -a -c "this.name === \'@bolt/ssr-server\'" location');
     // $p->run();
@@ -97,7 +97,7 @@ class TwigFunctions {
 
   public static function ssr() {
     return new Twig_SimpleFunction('bolt_ssr', function(\Twig\Environment $env, $context, $html) {
-      $result = self::bolt_ssr($context, $html);
+      $result = self::bolt_ssr($html, $context);
       return $result;
     }, [
       'needs_environment' => true,
