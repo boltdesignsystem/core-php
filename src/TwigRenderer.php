@@ -7,6 +7,9 @@ use Webmozart\PathUtil\Path;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
 use Symfony\Component\Finder\Finder;
+use Twig\Loader\FilesystemLoader;
+use Twig\Loader\ChainLoader;
+use Twig\Extension\DebugExtension;
 
 // Twig docs for this: https://twig.symfony.com/doc/1.x/api.html
 
@@ -44,7 +47,7 @@ class TwigRenderer {
 
     // Recursively add known Twig directories so none-namespaced Twig references like `./my-template.twig` still work!
     foreach ($buildLoaderPaths as $path) {
-      $loader = new \Twig_Loader_Filesystem(dirname(Path::makeAbsolute($path, $this->relativePathRoot)));
+      $loader = new FilesystemLoader(dirname(Path::makeAbsolute($path, $this->relativePathRoot)));
       $twigLoaders[] = $loader;
     }
 
@@ -52,7 +55,7 @@ class TwigRenderer {
       $twigLoaders = array_merge($twigLoaders, $extraTwigLoaders);
     }
 
-    $loaders = new \Twig_Loader_Chain($twigLoaders);
+    $loaders = new ChainLoader($twigLoaders);
 
     // Create Twig Environment with the `$loaders` just made and some global settings
     $this->twig = new \Twig\Environment($loaders, [
@@ -73,7 +76,7 @@ class TwigRenderer {
     foreach ($this->twigExtensions as $twigExtension) {
       $this->twig->addExtension(new $twigExtension());
     }
-    $this->twig->addExtension(new \Twig_Extension_Debug());
+    $this->twig->addExtension(new DebugExtension());
 
   }
 
