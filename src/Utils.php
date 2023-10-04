@@ -275,6 +275,28 @@ class Utils {
       }
     }
 
+    if ($isData) {
+      // Convert data attributes to array.
+      // In our twig templates, we check for attribute values. E.g.
+      // {{ this.data.height.value }}.
+      // Previously, {{ this.data.height }} was an Attribute. So the above would
+      // use the `value()` method to get its value.
+      // As of Drupal 10, we are no longer allowed to use the `value()` method
+      // inside of Twig.
+      // The code below converts `$props` from an Attribute object to
+      // an array. The array becomes `$this['data']['height']['value']`. So the
+      // existing twig templates will not need to be altered.
+      $data = [];
+      if (isset($props)) {
+        foreach ($props as $key => $value) {
+          $data[$key]['value'] = $value->value();
+        }
+        if (isset($data)) {
+          $props = $data;
+        }
+      }
+    }
+
     return $props;
   }
 
