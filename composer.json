@@ -13,13 +13,17 @@
       "name": "Evan Lovely"
     }
   ],
-  "repositories": [
-    {
+  "repositories": {
+    "boltvcs": {
       "type": "vcs",
       "url": "https://github.com/sreenivasulu-paruchuri/twig-tools.git",
       "no-api": true
+    },
+    "shudrum/array-finder": {
+      "type": "git",
+      "url": "https://github.com/atomiix/ArrayFinder.git"
     }
-  ],
+  },
   "autoload": {
     "psr-4": {
       "Bolt\\": "src/"
