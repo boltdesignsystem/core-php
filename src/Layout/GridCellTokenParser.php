@@ -5,6 +5,8 @@ namespace Bolt\Layout;
 use \Drupal\Core\Template\Attribute;
 
 use Bolt\Layout\GridCellNode;
+use Twig\Error\SyntaxError;
+use Twig\Node\Node;
 
 /**
  * Represents a Grid Cell node.
@@ -49,7 +51,7 @@ class GridCellTokenParser extends \Twig\TokenParser\AbstractTokenParser {
             $continue = false;
             break;
         default:
-            throw new \Twig_Error_Syntax(sprintf('Unexpected end of template. Twig was looking for the following tags "endcell" to close the "cell" block started at line %d)', $lineno), -1);
+            throw new SyntaxError(sprintf('Unexpected end of template. Twig was looking for the following tags "endcell" to close the "cell" block started at line %d)', $lineno), -1);
       }
 
       // you want $body at the beginning of your arguments
@@ -61,7 +63,7 @@ class GridCellTokenParser extends \Twig\TokenParser\AbstractTokenParser {
       $stream->expect(\Twig\Token::BLOCK_END_TYPE);
     }
 
-    return new GridCellNode(new \Twig_Node($params), $lineno, $this->getTag());
+    return new GridCellNode(new Node($params), $lineno, $this->getTag());
   }
 
 /**

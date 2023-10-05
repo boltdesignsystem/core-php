@@ -3,6 +3,7 @@
 namespace Bolt\Layout;
 
 use Bolt\Layout\GridTagNode;
+use Twig\Node\Node;
 
 /**
  * @author Salem Ghoweri
@@ -54,7 +55,7 @@ class GridTagTokenParser extends \Twig\TokenParser\AbstractTokenParser {
       $stream->expect(\Twig\Token::BLOCK_END_TYPE);
     }
 
-    return new GridTagNode(new \Twig_Node($params), $lineno, $this->getTag());
+    return new GridTagNode(new Node($params), $lineno, $this->getTag());
   }
 
       /**

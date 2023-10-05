@@ -2,13 +2,13 @@
 
 namespace Bolt\TwigExtensions;
 
-use Bolt;
-use Twig_Extension;
-use Twig_ExtensionInterface;
 use BasaltInc\TwigTools;
+use Bolt;
+use Twig\Extension\AbstractExtension;
+use Twig\Extension\ExtensionInterface;
 
 // Twig extensions for better Drupal / UI Patterns module compatibility
-class BoltCoreCompat extends Twig_Extension implements Twig_ExtensionInterface {
+class BoltCoreCompat extends AbstractExtension implements ExtensionInterface {
 
   public function getFunctions() {
     return [

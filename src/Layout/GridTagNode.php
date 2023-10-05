@@ -2,11 +2,14 @@
 
 namespace Bolt\Layout;
 
-use \Drupal\Core\Template\Attribute;
 use Bolt\BoltStringLoader;
+use Drupal\Core\Template\Attribute;
+use Twig\Environment;
+use Twig\Loader\ArrayLoader;
+use Twig\Node\Expression\AbstractExpression;
 
 
-  // Default attributes and inheritted data all grid components inherit (ex. base CSS class)
+// Default attributes and inheritted data all grid components inherit (ex. base CSS class)
 $GLOBALS['grid_attributes'] = array('class' => array('o-bolt-grid'));
 // Crude way to track which instance of the component is being referenced so each component's unique data is encapsulated and merged together properly without bleeding over.
 $GLOBALS['counter'] = 0;
@@ -79,7 +82,7 @@ class GridTagNode extends \Twig\Node\Node {
     // Run the captured attributes through D8's createAttribute function, prior to rendering
     $attributes = new Attribute($merged_attributes);
 
-    $env = new \Twig_Environment(new \Twig_Loader_Array([]), [
+    $env = new Environment(new ArrayLoader([]), [
       'debug' => true,
       'autoescape' => false,
     ]);
@@ -106,7 +109,7 @@ class GridTagNode extends \Twig\Node\Node {
       // argument is not an expression (such as, a \Twig_Node_Textbody)
       // we should trick with output buffering to get a valid argument to pass
       // to the functionToCall() function.
-      if (!($this->getNode('params')->getNode($i) instanceof \Twig_Node_Expression)){
+      if (!($this->getNode('params')->getNode($i) instanceof AbstractExpression)){
         $compiler->write('ob_start();')->raw(PHP_EOL);
         $compiler->subcompile($this->getNode('params')->getNode($i));
         $compiler->write('$_mytag[] = ob_get_clean();')->raw(PHP_EOL);
