@@ -3,7 +3,7 @@
 namespace Bolt;
 
 use Bolt;
-use \Twig_SimpleFunction;
+use Twig\TwigFunction;
 use \Drupal\Core\Template\Attribute;
 use \BasaltInc\TwigTools;
 use \Webmozart\PathUtil\Path;
@@ -16,7 +16,7 @@ use \Shudrum\Component\ArrayFinder\ArrayFinder;
 class TwigFunctions {
 
   public static function getSpacingScaleSequence() {
-    return new Twig_SimpleFunction('getSpacingScaleSequence', function($context) {
+    return new TwigFunction('getSpacingScaleSequence', function($context) {
       // Mainly just a demo for how to access the global `bolt` data.
       $data = $context['bolt']['data']['spacing']['scale'];
       $scaleValues = array_values($data);
@@ -29,7 +29,7 @@ class TwigFunctions {
 
 
   public static function fileExists() {
-    return new Twig_SimpleFunction('fileExists', function(\Twig\Environment $env, $context, $path) {
+    return new TwigFunction('fileExists', function(\Twig\Environment $env, $context, $path) {
       $result = '';
 
       try {
@@ -49,7 +49,7 @@ class TwigFunctions {
   }
 
   public static function inlineFile() {
-    return new Twig_SimpleFunction('inline', function($context, $filename) {
+    return new TwigFunction('inline', function($context, $filename) {
       if (!$filename){
         return '';
       }
@@ -87,7 +87,7 @@ class TwigFunctions {
   // @todo: integrate with existing Link component
   // Better Link function - improvement over off the shelf Drupal `Link` function Pattern Lab's Twig Extensions Plugin provided.
   public static function link() {
-    return new Twig_SimpleFunction('link', function ($title, $url, $attributes) {
+    return new TwigFunction('link', function ($title, $url, $attributes) {
       if (!empty($attributes)) {
         if (is_array($attributes)) {
           $attributes = new Attribute($attributes);
@@ -101,7 +101,7 @@ class TwigFunctions {
 
   // A combination of base64, bgcolor, ratio, and imageSize
   public static function getImageData() {
-    return new Twig_SimpleFunction('getImageData', function(\Twig\Environment $env, $relativeImagePath) {
+    return new TwigFunction('getImageData', function(\Twig\Environment $env, $relativeImagePath) {
       if (!$relativeImagePath) {
         return [];
       }
@@ -122,7 +122,7 @@ class TwigFunctions {
 
   // Same overall idea as https://jmperezperez.com/medium-image-progressive-loading-placeholder/, we just started working on this a few years prior ^_^
   public static function base64() {
-    return new Twig_SimpleFunction('base64', function(\Twig\Environment $env, $relativeImagePath) {
+    return new TwigFunction('base64', function(\Twig\Environment $env, $relativeImagePath) {
       $boltData = Utils::getData($env);
       $wwwDir = $boltData['config']['wwwDir'];
       return Images::generate_base64_image_placeholder($relativeImagePath, $wwwDir);
@@ -133,7 +133,7 @@ class TwigFunctions {
 
   // Return the aspect ratio of the image passed in
   public static function ratio() {
-    return new Twig_SimpleFunction('ratio', function(\Twig\Environment $env, $relativeImagePath, $heightOrWidthRatio = 'width') {
+    return new TwigFunction('ratio', function(\Twig\Environment $env, $relativeImagePath, $heightOrWidthRatio = 'width') {
       $boltData = Utils::getData($env);
       $wwwDir = $boltData['config']['wwwDir'];
       $value = Images::calculate_image_aspect_ratio($relativeImagePath, $heightOrWidthRatio, $wwwDir);
@@ -146,7 +146,7 @@ class TwigFunctions {
 
   // Originally was required...? Keeping for now till full responsive images solution back up and running
   public static function imagesize() {
-    return new Twig_SimpleFunction('imagesize', function(\Twig\Environment $env, $relativeImagePath) {
+    return new TwigFunction('imagesize', function(\Twig\Environment $env, $relativeImagePath) {
       $boltData = Utils::getData($env);
       $wwwDir = $boltData['config']['wwwDir'];
       return Images::get_image_dimensions($relativeImagePath, $wwwDir);
@@ -157,7 +157,7 @@ class TwigFunctions {
 
 
   public static function deep_merge() {
-    return new Twig_SimpleFunction('deep_merge', function($param1, $param2) {
+    return new TwigFunction('deep_merge', function($param1, $param2) {
       $result = array_merge_recursive( $param1, $param2 );
       // $result = array_replace_recursive( $param1, $param2 );
       return $result;
@@ -166,7 +166,7 @@ class TwigFunctions {
 
   // @todo: rename to public_path? we should also look into what'd be required to support `drupal_get_path`
   public static function publicpath() {
-    return new Twig_SimpleFunction('publicpath', function($fileName) {
+    return new TwigFunction('publicpath', function($fileName) {
       if (function_exists('drupal_get_path')) {
         return '/' . drupal_get_path('theme', 'bolt') . '/public/' . $fileName;
       }
@@ -178,7 +178,7 @@ class TwigFunctions {
 
   // @todo Deprecate & remove this whole `pattern_template` function
   public static function pattern_template() {
-    return new Twig_SimpleFunction('pattern_template', function($patternName) {
+    return new TwigFunction('pattern_template', function($patternName) {
 
       switch ($patternName) {
         case 'button_group':
@@ -228,7 +228,7 @@ class TwigFunctions {
   // http://www.w3.org/TR/WCAG20/#visual-audio-contrast (1.4.3)
   // http://www.w3.org/TR/WCAG20/#larger-scaledef
   public static function color_contrast() {
-    return new Twig_SimpleFunction('color_contrast', function($color1, $color2) {
+    return new TwigFunction('color_contrast', function($color1, $color2) {
       $ratio = Colors::calculateLuminosityRatio($color1, $color2);
 
       $contrast["levelAANormal"] = ($ratio >= 4.5 ? 'pass' : 'fail');
@@ -245,7 +245,7 @@ class TwigFunctions {
 
   // Backport the native create_attribute function from Drupal to natively work in Pattern Lab
   public static function create_attribute() {
-    return new Twig_SimpleFunction('create_attribute', function($attributes) {
+    return new TwigFunction('create_attribute', function($attributes) {
       return is_array($attributes) ? new Attribute($attributes) : $attributes;
       // print_r(Attribute);
     });
@@ -253,7 +253,7 @@ class TwigFunctions {
 
   // Returns an up-to-date version of the global `bolt.data` data store
   public static function getBoltData() {
-    return new Twig_SimpleFunction('getBoltData', function(\Twig\Environment $env) {
+    return new TwigFunction('getBoltData', function(\Twig\Environment $env) {
       $fullManifestPath = TwigTools\Utils::resolveTwigPath($env, '@bolt-data/full-manifest.bolt.json');
       $dataDir = dirname($fullManifestPath);
       return Bolt\Utils::buildBoltData($dataDir);
@@ -274,7 +274,7 @@ class TwigFunctions {
    */
 
    public static function init() {
-    return new Twig_SimpleFunction('init', function($context, $schema) {
+    return new TwigFunction('init', function($context, $schema) {
       $twigData = array();
       $twigData["props"] = new Attribute(Utils::buildPropsArray($context, $schema));
       $twigData["data"] = Utils::buildPropsArray($context, $schema, true);
@@ -285,7 +285,7 @@ class TwigFunctions {
   }
 
   public static function github_url() {
-    return new Twig_SimpleFunction('github_url', function(\Twig\Environment $env, $twigPath) {
+    return new TwigFunction('github_url', function(\Twig\Environment $env, $twigPath) {
       $filePath = TwigTools\Utils::resolveTwigPath($env, $twigPath);
       return Utils::gitHubUrl($filePath);
     }, [
@@ -301,7 +301,7 @@ class TwigFunctions {
    * @return integer - Returns greatest common denominator
    */
   public static function gcd() {
-    return new Twig_SimpleFunction('gcd', function($a, $b) {
+    return new TwigFunction('gcd', function($a, $b) {
       if(is_numeric($a) && is_numeric($b)) {
         // If either value is a float or is a string containing a float, don't try to get GCD
         if(is_float($a) || is_float($b) || (is_string($a) && strpos($a, '.')) || (is_string($b) && strpos($b, '.'))) {

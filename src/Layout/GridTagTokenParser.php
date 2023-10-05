@@ -42,7 +42,7 @@ class GridTagTokenParser extends \Twig\TokenParser\AbstractTokenParser {
           $continue = false;
           break;
         default:
-          throw new \Twig_Error_Syntax(sprintf('Unexpected end of template. Twig was looking for the following tags "endgrid" to close the "grid" block started at line %d)', $lineno), -1);
+          throw new \Twig\Error\SyntaxError(sprintf('Unexpected end of template. Twig was looking for the following tags "endgrid" to close the "grid" block started at line %d)', $lineno), -1);
       }
 
       // you want $body at the beginning of your arguments
@@ -54,7 +54,7 @@ class GridTagTokenParser extends \Twig\TokenParser\AbstractTokenParser {
       $stream->expect(\Twig\Token::BLOCK_END_TYPE);
     }
 
-    return new GridTagNode(new \Twig_Node($params), $lineno, $this->getTag());
+    return new GridTagNode(new \Twig\Node\Node($params), $lineno, $this->getTag());
   }
 
       /**

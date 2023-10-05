@@ -3,24 +3,24 @@
 namespace Bolt;
 
 use Bolt;
-use \Twig_SimpleFilter;
+use Twig\TwigFilter;
 
 class TwigFilters {
 
   public static function markdown() {
-    return new Twig_SimpleFilter('markdown', function($string) {
+    return new TwigFilter('markdown', function($string) {
       return Utils::convertMarkdown($string);
     });
   }
 
   public static function json_decode() {
-    return new Twig_SimpleFilter('json_decode', function ($json) {
+    return new TwigFilter('json_decode', function ($json) {
       return json_decode($json, true);
     });
   }
 
   public static function without() {
-    return new Twig_SimpleFilter('without', function ($element) {
+    return new TwigFilter('without', function ($element) {
       if ($element instanceof ArrayAccess) {
         $filtered_element = clone $element;
       }
@@ -39,13 +39,13 @@ class TwigFilters {
   }
 
   public static function t() {
-    return new Twig_SimpleFilter('t', function ($string, $args = []) {
+    return new TwigFilter('t', function ($string, $args = []) {
       return strtr($string, $args);
     });
   }
 
   public static function rgb2hex() {
-    return new Twig_SimpleFilter('rgb2hex', function ($rgb) {
+    return new TwigFilter('rgb2hex', function ($rgb) {
       $rgb = str_replace('rgb(', '', $rgb);
       $rgb = str_replace(')', '', $rgb);
       $rgb = str_replace(' ', '', $rgb);
@@ -67,7 +67,7 @@ class TwigFilters {
   }
 
   public static function text_contrast() {
-    return new Twig_SimpleFilter('text_contrast', function ($color) {
+    return new TwigFilter('text_contrast', function ($color) {
       return Colors::calculateTextContrast($color);
     });
   }
