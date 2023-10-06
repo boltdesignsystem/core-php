@@ -28,7 +28,7 @@
     "basaltinc/twig-tools": "^1.4.0 || ^8.0",
     "michelf/php-markdown": "^1.8.0",
     "webmozart/path-util": "^2.3",
-    "shudrum/array-finder": "^1.1",
+    "shudrum/array-finder": "dev-master#e54390b430b069e10be4eaf20cc16bb51b652b43 as v1.1.0",
     "gregwar/image": "^2.0",
     "nabil1337/case-helper": "^0.1.0",
     "mexitek/phpcolors": "^0.4.0",
