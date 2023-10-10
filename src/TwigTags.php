@@ -4,8 +4,6 @@ namespace Bolt;
 
 use Bolt\Layout\GridTagTokenParser;
 use Bolt\Layout\GridCellTokenParser;
-use \Twig_SimpleFunction;
-
 
 class TwigTags {
 

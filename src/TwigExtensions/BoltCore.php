@@ -8,7 +8,7 @@ use \Webmozart\PathUtil\Path; // https://github.com/webmozart/path-util
 use Twig\Extension\InitRuntimeInterface;
 use Twig\Extension\GlobalsInterface;
 use Twig\Extension\AbstractExtension;
-class BoltCore extends AbstractExtension implements InitRuntimeInterface, GlobalsInterface {
+class BoltCore extends AbstractExtension implements GlobalsInterface {
 
   public $data = [];
   public $isDebug;
@@ -34,7 +34,7 @@ class BoltCore extends AbstractExtension implements InitRuntimeInterface, Global
     }
   }
 
-  public function getGlobals() {
+  public function getGlobals(): array {
     return [
       'bolt' => [
         'data' => $this->data,

@@ -2,12 +2,12 @@
 
 namespace Bolt\TwigExtensions;
 
-use Bolt;
-use Twig_Extension;
-use Twig_ExtensionInterface;
 use BasaltInc\TwigTools;
+use Bolt;
+use Twig\Extension\AbstractExtension;
+use Twig\Extension\ExtensionInterface;
 
-class BoltExtras extends Twig_Extension implements Twig_ExtensionInterface {
+class BoltExtras extends AbstractExtension implements ExtensionInterface {
 
   public function getFunctions() {
     return [
